@@ -1,0 +1,21 @@
+{
+ "name": "Morpheus #3",
+ "symbol": "MORPHEUS",
+ "description": "Dreamy girl",
+ "image": "2.png",
+   "attributes": [
+   {
+     "trait_type": "key",
+     "value": "value"
+   }
+ ],
+ "properties": {
+   "category": "image",
+   "files": [
+     {
+       "uri": "2.png",
+       "type": "image/png"
+     }
+   ]
+ }
+}

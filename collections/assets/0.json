@@ -1,0 +1,21 @@
+{
+ "name": "Morpheus #1",
+ "symbol": "MORPHEUS",
+ "description": "Dreamy man",
+ "image": "0.png",
+   "attributes": [
+   {
+     "trait_type": "key",
+     "value": "value"
+   }
+ ],
+ "properties": {
+   "category": "image",
+   "files": [
+     {
+       "uri": "0.png",
+       "type": "image/png"
+     }
+   ]
+ }
+}

@@ -1,0 +1,50 @@
+{
+  "program": {
+    "candyMachine": "BbJqWsvavzgBW3FmiRiYBebEV2AftTHiJ7f8APaWXpcE",
+    "candyGuard": "",
+    "candyMachineCreator": "Af4Z9Z2eE3evHcij2QecYuox6W98hSQU3QYRjDTjATNJ",
+    "collectionMint": "2ADDbZP2eaaLZPuWtWrbhiikhMhcWbanLBfwqTbLFpyi"
+  },
+  "items": {
+    "-1": {
+      "name": "Morpheus Art generator",
+      "image_hash": "0dcf995c0cc72adbf3efb3897f645ad7eb5fbd4bf05572cdc96e211fab454a79",
+      "image_link": "https://arweave.net/C8GyfMnnd1LAf7rFKFWyeHyGKtFLkci3vfgSpSNZinat?ext=png",
+      "metadata_hash": "e477f42c751cba90f019ac1d548ab1c4ec63ec56fd5b5cbef54a9f3214415c5e",
+      "metadata_link": "https://arweave.net/53T3VcSCy5RCnuS3cDJ3XVauXeisDM6KZ7NPZVgUtEeC",
+      "onChain": true
+    },
+    "0": {
+      "name": "Morpheus #1",
+      "image_hash": "2132b2362f64df484d1b9f64db53d4d0327679163ba58a2d444d74efdf41edcd",
+      "image_link": "https://arweave.net/J6Q8CGpbsVkaNMo9CsG3jsYn5DmE6wxZPBhzJqfRbmUu?ext=png",
+      "metadata_hash": "12c8d29163738d33d249a7f72cf575a683905f3ec9db0b3eaecbd93f1e1a1559",
+      "metadata_link": "https://gateway.irys.xyz/Hvo1YHoaHckgf2N7Nq5u9KNNVspZJd6ZVAHTVipFtGEz",
+      "onChain": true
+    },
+    "1": {
+      "name": "Morpheus #2",
+      "image_hash": "2df2045c2debc93c9ca5a3edff323b77054fd55ce348022a1d1bc50e1fd73c5c",
+      "image_link": "https://arweave.net/J4k2y5jox7XvedgcdKzHy2x4Zeyg1CH5V8k1beC3s3mc?ext=png",
+      "metadata_hash": "2d1bd1bee729fa2b9a8d36a17b86b4cdd5a978537491d97aba33fb0f988320c8",
+      "metadata_link": "https://gateway.irys.xyz/6g5kv3SMuTaXa7tY6oK5yHwTbweRXJ97bvH4Y7EJcU11",
+      "onChain": true
+    },
+    "2": {
+      "name": "Morpheus #3",
+      "image_hash": "c6a52a45e796bb8973d8426b2c514bdd88e506ec5abb4085228455e0b7a5cac0",
+      "image_link": "https://arweave.net/3WbWRshVBUR2B59rRr2Wg2DGBEczG2omsAPPV44kHov8?ext=png",
+      "metadata_hash": "d08347691d371a7f753b46b1e458219a194ffe3d9ff6517deb5e09f5cc2fa930",
+      "metadata_link": "https://gateway.irys.xyz/8S7tXsZ5vCAKataos5t1WW5eo8EaCxRnA9TKCRRCixvf",
+      "onChain": true
+    },
+    "3": {
+      "name": "Morpheus #4",
+      "image_hash": "11e20442b77be5e7c35acdbe548114a9b9b92d8095dc534f701182ecfbdb3a96",
+      "image_link": "https://arweave.net/C3hL5Np86he1KxsxY9KtWV1SmTCKLAX4uuFYGsgLzk8x?ext=png",
+      "metadata_hash": "e163de86d24facfaaeeb117e0d9d50227b4d80778f03c31fa0442c6ffc89795c",
+      "metadata_link": "https://arweave.net/9xmkDSyq1HusJofJoukJV5jta6y1LyoTEjMS7HxEixV8",
+      "onChain": true
+    }
+  }
+}

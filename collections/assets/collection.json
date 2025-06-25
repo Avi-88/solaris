@@ -1,0 +1,27 @@
+{
+ "image": "collection.png",
+ "name": "Morpheus Art generator",
+ "description": "Morpheus: A Dream Machine for AI Art Generation.",
+ "symbol": "MORPHEUS",
+ "attributes": [
+   {
+     "trait_type": "collection",
+     "value": "yep"
+   }
+ ],
+ "seller_fee_basis_points": 0,
+ "properties": {
+   "creators": [
+     {
+       "address": "7MXyWe2uYCDtZAxTaygr6XJVXJfYcCR2wzWkg4Ym4hUZ",
+       "share": 100
+     }
+   ],
+   "files": [
+     {
+       "type": "image/png",
+       "uri": "collection.png"
+     }
+   ]
+ }
+}
