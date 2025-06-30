@@ -3,8 +3,10 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { WalletProvider } from '@/hooks/WalletProvider';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -19,11 +21,15 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
+      <WalletProvider>
+        <ActionSheetProvider>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+        <StatusBar style="auto" />
+        </ActionSheetProvider>
+      </WalletProvider>
     </ThemeProvider>
   );
 }

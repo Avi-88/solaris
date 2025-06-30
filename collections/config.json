@@ -19,6 +19,24 @@
   "shdwStorageAccount": null,
   "pinataConfig": null,
   "hiddenSettings": null,
-  "guards": null,
+  "guards": {
+    "default": {
+      "mintLimit": {
+        "id": 1,
+        "limit": 1
+      },
+      "solPayment": {
+        "value": 0.2,
+        "destination": "7MXyWe2uYCDtZAxTaygr6XJVXJfYcCR2wzWkg4Ym4hUZ"
+      },
+      "startDate": {
+        "date": "2024-03-23T04:00:00Z"
+      },
+      "botTax": {
+        "value": 0.01,
+        "lastInstruction": true
+      }
+    }
+  },
   "maxEditionSupply": null
 }

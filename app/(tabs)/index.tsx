@@ -1,12 +1,21 @@
 import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, StyleSheet, Button, View } from 'react-native';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useWallet } from '@/hooks/WalletProvider';
 
 export default function HomeScreen() {
+  const { connected, connect, disconnect, publicKey, loading } = useWallet();
+
+  const getDisplayKey = () => {
+    if (!publicKey) return '';
+    const base58 = publicKey.toBase58();
+    return `${base58.slice(0, 4)}...${base58.slice(-4)}`;
+  };
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -20,6 +29,19 @@ export default function HomeScreen() {
         <ThemedText type="title">Welcome!</ThemedText>
         <HelloWave />
       </ThemedView>
+
+      {/* Wallet Connection UI */}
+      <View style={styles.walletContainer}>
+        {connected && publicKey ? (
+          <View>
+            <ThemedText style={styles.publicKeyText}>Connected: {getDisplayKey()}</ThemedText>
+            <Button title="Disconnect" onPress={disconnect} disabled={loading} color="#FF6347" />
+          </View>
+        ) : (
+          <Button title="Connect Wallet" onPress={connect} disabled={loading} />
+        )}
+      </View>
+
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Step 1: Try it</ThemedText>
         <ThemedText>
@@ -71,5 +93,20 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     position: 'absolute',
+  },
+  walletContainer: {
+    padding: 16,
+    borderRadius: 8,
+    backgroundColor: '#f0f0f0',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 10,
+  },
+  publicKeyText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 12,
+    color: '#333',
+    textAlign: 'center',
   },
 });

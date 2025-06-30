@@ -1,0 +1,2 @@
+candy machine id - BbJqWsvavzgBW3FmiRiYBebEV2AftTHiJ7f8APaWXpcE
+candy machine url - https://www.solana.fm/address/BbJqWsvavzgBW3FmiRiYBebEV2AftTHiJ7f8APaWXpcE?cluster=devnet-alpha
