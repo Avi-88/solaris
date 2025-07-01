@@ -1,6 +1,7 @@
 import { WalletNotConnectedError } from '@solana/wallet-adapter-base';
-import { transact, Web3MobileWallet } from '@solana-mobile/mobile-wallet-adapter-protocol-web3js';
+import { transact, Web3MobileWallet  } from '@solana-mobile/mobile-wallet-adapter-protocol-web3js';
 import { PublicKey, Transaction  } from '@solana/web3.js';
+import { AuthToken } from '@solana-mobile/mobile-wallet-adapter-protocol';
 import React, {
     createContext,
     PropsWithChildren,
@@ -9,7 +10,8 @@ import React, {
     useMemo,
     useState,
 } from 'react';
-import { AuthToken } from '@solana-mobile/mobile-wallet-adapter-protocol';
+import { Buffer } from 'buffer'; 
+
 
 // Define the app identity
 const APP_IDENTITY = {
@@ -65,10 +67,11 @@ export const WalletProvider: React.FC<PropsWithChildren<{}>> = ({ children }) =>
                     cluster: 'devnet',
                     identity: APP_IDENTITY,
                 });
-
+                
                 // Check if authorization was successful and accounts are available
                 if (authorizationResult.accounts.length > 0 && authorizationResult.auth_token) {
-                    const authorizedPublicKey = new PublicKey( authorizationResult.accounts[0].address);
+
+                    const authorizedPublicKey = new PublicKey( Buffer.from(authorizationResult.accounts[0].address, 'base64'));
                     setAuthToken(authorizationResult.auth_token);
                     setPublicKey(authorizedPublicKey);
                 } else {

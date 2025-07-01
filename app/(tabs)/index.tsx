@@ -1,11 +1,14 @@
 import { Image } from 'expo-image';
 import { Platform, StyleSheet, Button, View } from 'react-native';
-
+import "react-native-get-random-values";
+import { Buffer } from "buffer";
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useWallet } from '@/hooks/WalletProvider';
+
+global.Buffer = Buffer;
 
 export default function HomeScreen() {
   const { connected, connect, disconnect, publicKey, loading } = useWallet();
@@ -67,7 +70,7 @@ export default function HomeScreen() {
         <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
         <ThemedText>
           {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
+          <ThemedText type="defaultSemiBold"></ThemedText> to get a fresh{' '}
           <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
           <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
           <ThemedText type="defaultSemiBold">app-example</ThemedText>.
