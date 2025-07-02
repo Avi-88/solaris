@@ -8,172 +8,232 @@ import {
   Pressable,
   SafeAreaView,
   Dimensions,
-  ScrollView,
+  StatusBar,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import Ionicons from '@react-native-vector-icons/ionicons';
 import { useWallet } from '@/hooks/WalletProvider';
 
-// -----------------------------------------------------------------------------
-// 👇🏻  SAMPLE DATA --------------------------------------------------------------
-// -----------------------------------------------------------------------------
 interface EventItem {
   id: string;
   title: string;
   city: string;
-  date: string; // e.g. "2025‑07‑18"
-  banner: string; // remote uri or local asset
-  price: string;
+  venue: string;
+  date: string;       // ISO Date – e.g. 2025‑09‑12
+  time: string;       // 24‑h – e.g. 18:30
+  banner: string;     // remote uri or local asset
+  price: string;      // “0.8 SOL”
+  brand: 'nasa' | 'spacex' | 'isro' | 'uksa'; // used for gradient
 }
 
+/**
+ *  Sample data
+ *  (unchanged except new fields & brands)
+ */
 const EVENTS: EventItem[] = [
   {
     id: '1',
     title: 'London NFT Expo',
     city: 'London, UK',
+    venue: 'Olympia',
     date: '2025‑07‑18',
-    banner:
-      'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=60',
-    price: '1.2 SOL',
+    time: '10:00',
+    banner: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d',
+    price: '1.2 SOL',
+    brand: 'spacex',
   },
-  {
+    {
     id: '2',
-    title: 'Solana Hacker House',
-    city: 'Paris, FR',
-    date: '2025‑08‑05',
-    banner:
-      'https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=60',
-    price: '0.8 SOL',
+    title: 'London NFT Expo',
+    city: 'London, UK',
+    venue: 'Olympia',
+    date: '2025‑07‑18',
+    time: '10:00',
+    banner: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d',
+    price: '1.2 SOL',
+    brand: 'nasa',
   },
-  {
+    {
     id: '3',
-    title: 'Crypto Carnival',
-    city: 'Barcelona, ES',
-    date: '2025‑09‑12',
-    banner:
-      'https://images.unsplash.com/photo-1600379861985-b6e6c37931f3?auto=format&fit=crop&w=1200&q=60',
-    price: '1 SOL',
+    title: 'London NFT Expo',
+    city: 'London, UK',
+    venue: 'Olympia',
+    date: '2025‑07‑18',
+    time: '10:00',
+    banner: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d',
+    price: '1.2 SOL',
+    brand: 'isro',
   },
     {
     id: '4',
-    title: 'Crypto Carnival',
-    city: 'Barcelona, ES',
-    date: '2025‑09‑12',
-    banner:
-      'https://images.unsplash.com/photo-1600379861985-b6e6c37931f3?auto=format&fit=crop&w=1200&q=60',
-    price: '1 SOL',
+    title: 'London NFT Expo',
+    city: 'London, UK',
+    venue: 'Olympia',
+    date: '2025‑07‑18',
+    time: '10:00',
+    banner: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d',
+    price: '1.2 SOL',
+    brand: 'uksa',
   },
     {
     id: '5',
-    title: 'Crypto Carnival',
-    city: 'Barcelona, ES',
-    date: '2025‑09‑12',
-    banner:
-      'https://images.unsplash.com/photo-1600379861985-b6e6c37931f3?auto=format&fit=crop&w=1200&q=60',
-    price: '1 SOL',
+    title: 'London NFT Expo',
+    city: 'London, UK',
+    venue: 'Olympia',
+    date: '2025‑07‑18',
+    time: '10:00',
+    banner: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d',
+    price: '1.2 SOL',
+    brand: 'spacex',
   },
     {
-    id: '6',
-    title: 'Crypto Carnival',
-    city: 'Barcelona, ES',
-    date: '2025‑09‑12',
-    banner:
-      'https://images.unsplash.com/photo-1600379861985-b6e6c37931f3?auto=format&fit=crop&w=1200&q=60',
-    price: '1 SOL',
+    id: '5',
+    title: 'London NFT Expo',
+    city: 'London, UK',
+    venue: 'Olympia',
+    date: '2025‑07‑18',
+    time: '10:00',
+    banner: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d',
+    price: '1.2 SOL',
+    brand: 'uksa',
   },
+  // …add the rest
 ];
 
-
-const ITEM_WIDTH = Dimensions.get('window').width * 0.8;
+const { width } = Dimensions.get('window');
+const CARD_HEIGHT = 160;
+const CARD_RADIUS = 16;
 
 export default function HomeScreen() {
   const { publicKey, disconnect, loading } = useWallet();
 
-    const renderEventCard = ({ item }: { item: EventItem }) => (
-    <Pressable style={styles.card} onPress={() => { /* navigate to details */ }}>
-      <Image source={{ uri: item.banner }} style={styles.cardImage} />
-      <View style={styles.cardOverlay} />
-      <View style={styles.cardContent}>
-        <Text style={styles.cardTitle}>{item.title}</Text>
-        <Text style={styles.cardSubtitle}>{item.city}</Text>
-        <View style={styles.cardFooter}>
-          <Text style={styles.cardDate}>{formatDate(item.date)}</Text>
-          <Text style={styles.cardPrice}>{item.price}</Text>
-        </View>
-      </View>
-    </Pressable>
-  );
-
+  /** ---------- Helpers ---------- */
   const getDisplayKey = () => {
     if (!publicKey) return '';
     const base58 = publicKey.toBase58();
-    return `${base58.slice(0, 4)}...${base58.slice(-4)}`;
+    return `${base58.slice(0, 4)}…${base58.slice(-4)}`;
   };
 
+  const gradientFor = (brand: EventItem['brand']) => {
+    switch (brand) {
+      case 'nasa':
+        return ['#d62929', '#b5183e'];
+      case 'spacex':
+        return ['#0070ff', '#128aff'];
+      case 'isro':
+        return ['#ff9e2c', '#ff6b3d'];
+      case 'uksa':
+      default:
+        return ['#18b07b', '#0e8f5e'];
+    }
+  };
+
+  /** ---------- Render ---------- */
+  const renderCard = ({ item }: { item: EventItem }) => (
+    <Pressable
+      style={styles.cardWrapper}
+      onPress={() => {
+        /* navigation */
+      }}
+    >
+      <LinearGradient
+        colors={gradientFor(item.brand)}
+        style={styles.cardGradient}
+      >
+        {/* Ship icon */}
+        <Ionicons
+          name="rocket-outline"
+          size={32}
+          color="rgba(255,255,255,0.45)"
+          style={styles.rocket}
+        />
+
+        {/* Event meta */}
+        <View style={styles.cardContent}>
+          <Text style={styles.brand}>{item.title}</Text>
+
+          <View style={styles.row}>
+            <Text style={styles.label}>On </Text>
+            <Text style={styles.value}>
+              {formatDate(item.date)} • {item.time}
+            </Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.label}>Where </Text>
+            <Text style={styles.value}>{item.city}</Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.label}>Venue </Text>
+            <Text style={styles.value}>{item.venue}</Text>
+          </View>
+        </View>
+
+        {/* Price + chevron */}
+        <View style={styles.priceBlock}>
+          <Text style={styles.price}>{item.price}</Text>
+          <View style={styles.circleBtn}>
+            <Ionicons name="arrow-forward" size={18} color="#fff" />
+          </View>
+        </View>
+      </LinearGradient>
+    </Pressable>
+  );
+
   return (
-<SafeAreaView style={styles.container}>
-      {/* Header */}
+    <SafeAreaView style={styles.safe}>
+      <StatusBar barStyle="light-content" />
+      {/* ---------- Header ---------- */}
       <View style={styles.header}>
         <Image
-          source={{ uri: 'https://randomuser.me/api/portraits/men/32.jpg' }}
+          source={{
+            uri: 'https://randomuser.me/api/portraits/men/32.jpg',
+          }}
           style={styles.avatar}
         />
         <View>
-          <Text style={styles.welcome}>Welcome back,</Text>
+          <Text style={styles.welcome}>Welcome back</Text>
           <Text style={styles.username}>{getDisplayKey()}</Text>
         </View>
         <View style={{ flex: 1 }} />
-        {/* Notification / menu icon placeholder */}
-        <Pressable style={styles.menuBtn}>
-          <Text onPress={disconnect} disabled={loading} style={{ fontSize: 18, color: '#fff' }}>☰</Text>
+        <Pressable onPress={disconnect} disabled={loading}>
+          <Ionicons name="menu" size={28} color="#fff" />
         </Pressable>
       </View>
 
-      {/* Overview Carousel */}
-      <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>Upcoming Events</Text>
-        <Pressable>
-          <Text style={styles.sectionAction}>See all</Text>
-        </Pressable>
-      </View>
-
+      {/* ---------- List of events ---------- */}
       <FlatList
         data={EVENTS}
         keyExtractor={(item) => item.id}
-        showsHorizontalScrollIndicator={false}
+        renderItem={renderCard}
+        contentContainerStyle={{ padding: 16, paddingBottom: 120 }}
         showsVerticalScrollIndicator={false}
-        renderItem={renderEventCard}
-        contentContainerStyle={{ alignItems: 'center', paddingVertical: 10 }}
       />
 
-      {/* Calendar & Quick actions */}
-      <ScrollView style={{ flex: 1, marginTop: 24 }}>
-        <View style={styles.calendarPlaceholder}>
-          <Text style={{ color: '#777' }}>🎟  Calendar component here</Text>
-        </View>
-      </ScrollView>
-
-      {/* Floating action button */}
-      <Pressable style={styles.fab} onPress={() => { /* create event */ }}>
-        <Text style={styles.fabText}>＋</Text>
+      {/* ---------- Floating Action Button ---------- */}
+      <Pressable style={styles.fab} onPress={() => {}}>
+        <Ionicons name="add" size={32} color="#fff" />
       </Pressable>
     </SafeAreaView>
   );
 }
 
-// -----------------------------------------------------------------------------
-// 👇🏻  HELPERS -----------------------------------------------------------------
-// -----------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- */
+/*                                   utils                                    */
+/* -------------------------------------------------------------------------- */
 
-function formatDate(date: string) {
-  const d = new Date(date);
-  return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+function formatDate(iso: string) {
+  const d = new Date(iso);
+  return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: '2-digit' });
 }
 
-// -----------------------------------------------------------------------------
-// 👇🏻  STYLES ------------------------------------------------------------------
-// -----------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- */
+/*                                  styles                                    */
+/* -------------------------------------------------------------------------- */
 
 const styles = StyleSheet.create({
-  container: {
+  safe: {
     flex: 1,
     backgroundColor: '#0d0d0d',
   },
@@ -181,117 +241,88 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingTop: 20,
+    paddingTop: 12,
+    paddingBottom: 8,
   },
   avatar: {
-    width: 45,
-    height: 45,
-    borderRadius: 22.5,
+    width: 42,
+    height: 42,
+    borderRadius: 21,
     marginRight: 12,
   },
-  welcome: {
-    color: '#bbb',
-    fontSize: 12,
-  },
-  username: {
-    color: '#fff',
-    fontWeight: '600',
-    fontSize: 16,
-  },
-  menuBtn: {
-    padding: 8,
-    backgroundColor: 'rgba(255,255,255,0.1)',
-    borderRadius: 8,
-  },
-  sectionHeader: {
-    marginTop: 24,
-    paddingHorizontal: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  sectionTitle: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
-    flex: 1,
-  },
-  sectionAction: {
-    color: '#ff4379',
-    fontSize: 14,
-  },
-  card: {
-    width: ITEM_WIDTH,
-    height: ITEM_WIDTH * 0.6,
-    marginRight: 16,
-    borderRadius: 20,
+  welcome: { fontSize: 12, color: '#78828a' },
+  username: { fontSize: 16, color: '#fff', fontWeight: '600' },
+
+  /* ---------- Card ---------- */
+  cardWrapper: {
+    width: width - 32,
+    height: CARD_HEIGHT,
+    marginBottom: 16,
+    borderRadius: CARD_RADIUS,
     overflow: 'hidden',
+    elevation: 3,
   },
-  cardImage: {
-    ...StyleSheet.absoluteFillObject,
-    width: '100%',
-    height: '100%',
+  cardGradient: {
+    flex: 1,
+    borderRadius: CARD_RADIUS,
+    padding: 18,
   },
-  cardOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.3)',
+  rocket: {
+    position: 'absolute',
+    top: 18,
+    right: 18,
   },
   cardContent: {
-    position: 'absolute',
-    bottom: 16,
-    left: 16,
-    right: 16,
+    flex: 1,
+    justifyContent: 'center',
   },
-  cardTitle: {
+  brand: {
     color: '#fff',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '700',
+    marginBottom: 6,
   },
-  cardSubtitle: {
-    color: '#ddd',
-    fontSize: 14,
-    marginTop: 2,
-  },
-  cardFooter: {
-    marginTop: 8,
+  row: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-end',
+    marginBottom: 2,
   },
-  cardDate: {
-    color: '#fff',
+  label: {
+    color: 'rgba(255,255,255,0.6)',
     fontSize: 12,
   },
-  cardPrice: {
-    color: '#ff4379',
-    fontSize: 14,
-    fontWeight: '600',
+  value: {
+    color: '#fff',
+    fontSize: 13,
+    fontWeight: '500',
   },
-  calendarPlaceholder: {
-    height: 260,
-    marginHorizontal: 16,
-    borderRadius: 16,
-    backgroundColor: '#1a1a1a',
+  priceBlock: {
+    position: 'absolute',
+    bottom: 18,
+    right: 18,
+    alignItems: 'flex-end',
+  },
+  price: { color: '#fff', fontSize: 14, fontWeight: '600', marginBottom: 6 },
+  circleBtn: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: 'rgba(255,255,255,0.3)',
     justifyContent: 'center',
     alignItems: 'center',
   },
+
+  /* ---------- FAB ---------- */
   fab: {
     position: 'absolute',
     right: 24,
     bottom: 32,
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: '#ff4379',
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: '#7d1cff', // Solana purple
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 4,
-  },
-  fabText: {
-    color: '#fff',
-    fontSize: 32,
-    marginTop: -2,
-    fontWeight: '600',
+    elevation: 5,
   },
 });
-
-
