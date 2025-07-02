@@ -72,6 +72,7 @@ export const WalletProvider: React.FC<PropsWithChildren<{}>> = ({ children }) =>
                 if (authorizationResult.accounts.length > 0 && authorizationResult.auth_token) {
 
                     const authorizedPublicKey = new PublicKey( Buffer.from(authorizationResult.accounts[0].address, 'base64'));
+
                     setAuthToken(authorizationResult.auth_token);
                     setPublicKey(authorizedPublicKey);
                 } else {

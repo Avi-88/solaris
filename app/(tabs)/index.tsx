@@ -1,17 +1,14 @@
 import { Image } from 'expo-image';
-import { Platform, StyleSheet, Button, View } from 'react-native';
-import "react-native-get-random-values";
-import { Buffer } from "buffer";
+import { Platform, StyleSheet, View, Button } from 'react-native';
+
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useWallet } from '@/hooks/WalletProvider';
 
-global.Buffer = Buffer;
-
 export default function HomeScreen() {
-  const { connected, connect, disconnect, publicKey, loading } = useWallet();
+  const { publicKey, disconnect, loading } = useWallet();
 
   const getDisplayKey = () => {
     if (!publicKey) return '';
@@ -28,36 +25,32 @@ export default function HomeScreen() {
           style={styles.reactLogo}
         />
       }>
+      {/* User Info Card */}
+      <ThemedView style={styles.userInfoCard}>
+        <ThemedText type="subtitle">Connected Wallet</ThemedText>
+        <ThemedText style={styles.publicKeyText}>{getDisplayKey()}</ThemedText>
+        <Button title="Disconnect" onPress={disconnect} disabled={loading} color="#FF6347" />
+      </ThemedView>
+
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Welcome!</ThemedText>
         <HelloWave />
       </ThemedView>
 
-      {/* Wallet Connection UI */}
-      <View style={styles.walletContainer}>
-        {connected && publicKey ? (
-          <View>
-            <ThemedText style={styles.publicKeyText}>Connected: {getDisplayKey()}</ThemedText>
-            <Button title="Disconnect" onPress={disconnect} disabled={loading} color="#FF6347" />
-          </View>
-        ) : (
-          <Button title="Connect Wallet" onPress={connect} disabled={loading} />
-        )}
-      </View>
-
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Step 1: Try it</ThemedText>
         <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
+          <ThemedText>Edit </ThemedText>
+          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText>
+          <ThemedText> to see changes. Press</ThemedText>
           <ThemedText type="defaultSemiBold">
             {Platform.select({
               ios: 'cmd + d',
               android: 'cmd + m',
               web: 'F12',
             })}
-          </ThemedText>{' '}
-          to open developer tools.
+          </ThemedText>
+          <ThemedText> to open developer tools.</ThemedText>
         </ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
@@ -69,11 +62,15 @@ export default function HomeScreen() {
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
         <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold"></ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
+          <ThemedText>{`When you're ready, run `}</ThemedText>
+          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText>
+          <ThemedText> to get a fresh</ThemedText>
+          <ThemedText type="defaultSemiBold"> app</ThemedText>
+          <ThemedText> directory. This will move the current</ThemedText>
+          <ThemedText type="defaultSemiBold"> app</ThemedText>
+          <ThemedText> to</ThemedText>
+          <ThemedText type="defaultSemiBold"> app-example</ThemedText>
+          <ThemedText>.</ThemedText>
         </ThemedText>
       </ThemedView>
     </ParallaxScrollView>
@@ -97,17 +94,22 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
   },
-  walletContainer: {
+  userInfoCard: {
     padding: 16,
-    borderRadius: 8,
+    borderRadius: 10,
     backgroundColor: '#f0f0f0',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 10,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   publicKeyText: {
     fontSize: 16,
     fontWeight: 'bold',
+    marginTop: 8,
     marginBottom: 12,
     color: '#333',
     textAlign: 'center',
